@@ -1,7 +1,9 @@
 import time
 import torch
 import numpy as np
+import pandas as pd
 import streamlit as st
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
 def app():
     st.write("## Ship Imagery Prediction")
@@ -16,11 +18,39 @@ def app():
     uploaded_file = st.file_uploader("Choose a ship imagery")
     if uploaded_file is not None:
         st.image(uploaded_file, caption='Image to predict')
+        folder_path = st.text_input("Image path",
+                                    help="This field the image path field that the model will predict\
+                                    the object inside the image that we have uploaded",
+                                    placeholder="Copy the path of image to this field")
+
     st.write("If you don't have any satellit imagery data, you can choose the sample data form the table below:")
-    folder_path = st.text_input("Image path",
-                                help="This field the image path field that the model will predict\
-                                the object inside the image that we have uploaded",
-                                placeholder="Copy the path of image to this field")
+    sample_data = pd.read_csv('https://raw.githubusercontent.com/bills1912/vessels-detection-dashboard/main/apps/sample_data/table_sample_data.csv',
+    sep=';')
+    gb = GridOptionsBuilder.from_dataframe(sample_data)
+    gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+    gb.configure_auto_height(autoHeight = True)
+    gb.configure_selection('multiple', use_checkbox=False) #Enable multi-row selection
+    gridOptions = gb.build()
+
+    grid_response = AgGrid(
+        sample_data,
+        gridOptions=gridOptions,
+        data_return_mode='AS_INPUT', 
+        update_mode='MODEL_CHANGED', 
+        fit_columns_on_grid_load=False,
+        theme='dark', #Add theme color to the table
+        enable_enterprise_modules=True,
+        height=350, 
+        width='100%',
+        reload_data=True
+    )
+
+    selected = grid_response['selected_rows']
+    if selected:
+        folder_path = st.text_input("Image path", value=f"{selected[0]['Sample Data']}",
+                                    help="This field the image path field that the model will predict\
+                                    the object inside the image that we have uploaded",
+                                    placeholder="Copy the path of image to this field")
 
     prediction = st.button("Predict")
     if prediction:
