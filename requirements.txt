@@ -20,3 +20,12 @@ seaborn==0.12.2
 opencv-python-headless
 pyyaml
 tqdm
+gitpython
+matplotlib>=3.2.2
+numpy>=1.18.5
+Pillow>=7.1.2
+requests>=2.23.0
+scipy>=1.4.1
+thop>=0.1.1
+torchvision>=0.8.1
+tensorboard>=2.4.1
