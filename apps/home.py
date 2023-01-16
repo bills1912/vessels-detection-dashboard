@@ -41,9 +41,11 @@ def app():
         ## Tutorial: How to Use Ship Detection Model
         Here is the step by step how to use the model on this dashboard:
         - first, **prepare the satellite imagery image** that you want to use. If you don't have the image, you can use this sample image, by clicking the **"Download Image"** \
-          on the end of this dashboard usage explanation or you can use the table that will be provided in the menu that will be selected\
-          by clicking the field of the table **(and you can skip step 3, 4, and 5 in this tutorial)**;
-        - then, **choose the model** that you want to use **(on the side bar)**, **YOLOv5x6 Model** to use the YOLOv5x6 model or **Fine-Tuning Model** to use the fine-tuning model (study case: Tanjung Priok Port);
+          on the end of this dashboard usage explanation or you can use the table that will be provided in the menu on the sidebar\
+          that will be selected by clicking the field of the table **(and you can skip step 3, 4, and 5 in this tutorial)**;
+        - then, **choose the detection model** that you want to use **(on the side bar)**, **First Detection Model** to use the model that is built\
+          using **ShipRSImageNet dataset** or **Second Detection Model** to use the model that is built using **Tanjung Priok Port satellite imagery\
+          dataset**;
         - to upload your image, **click the "Browse File"** button, then upload your image;
         - after the image is uploaded, **right click the image** and then **copy the image address** by clicking **"Copy image address"** button;
         - then **paste the image address** on the box below the image;
