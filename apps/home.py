@@ -37,25 +37,27 @@ def app():
         jakarta_vessels.add_child(ais_data)
     folium_static(jakarta_vessels, width=1100, height=700)
     
-    # gb = GridOptionsBuilder.from_dataframe(ais)
-    # gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
-    # gb.configure_selection('multiple', use_checkbox=False) #Enable multi-row selection
-    # gridOptions = gb.build()
+    gb = GridOptionsBuilder.from_dataframe(ais)
+    gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+    gb.configure_selection('multiple', use_checkbox=False) #Enable multi-row selection
+    gridOptions = gb.build()
 
-    # grid_response = AgGrid(
-    #     ais,
-    #     gridOptions=gridOptions,
-    #     data_return_mode='AS_INPUT', 
-    #     update_mode='MODEL_CHANGED', 
-    #     fit_columns_on_grid_load=False,
-    #     theme='dark', #Add theme color to the table
-    #     enable_enterprise_modules=True,
-    #     height=350, 
-    #     width='100%',
-    #     reload_data=True
-    # )
+    grid_response = AgGrid(
+        ais,
+        gridOptions=gridOptions,
+        data_return_mode='AS_INPUT', 
+        update_mode='MODEL_CHANGED', 
+        fit_columns_on_grid_load=False,
+        theme='dark', #Add theme color to the table
+        enable_enterprise_modules=True,
+        height=350, 
+        width='100%',
+        reload_data=True
+    )
 
-    # selected = grid_response['selected_rows'] 
+    selected = grid_response['selected_rows']
+    if selected:
+        st.write(selected[0]['Destination Port'])
     
     st.markdown(
         """

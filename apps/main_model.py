@@ -16,9 +16,11 @@ def app():
     uploaded_file = st.file_uploader("Choose a ship imagery")
     if uploaded_file is not None:
         st.image(uploaded_file, caption='Image to predict')
-        folder_path = st.text_input("Image path",
-                                    help="This field the image path field that the model will predict the object inside the image that we have uploaded",
-                                    placeholder="Copy the path of image to this field")
+    st.write("If you don't have any satellit imagery data, you can choose the sample data form the table below:")
+    folder_path = st.text_input("Image path",
+                                help="This field the image path field that the model will predict\
+                                the object inside the image that we have uploaded",
+                                placeholder="Copy the path of image to this field")
 
     prediction = st.button("Predict")
     if prediction:
