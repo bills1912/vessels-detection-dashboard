@@ -18,22 +18,18 @@ def app():
     uploaded_file = st.file_uploader("Choose a ship imagery")
     if uploaded_file is not None:
         st.image(uploaded_file, caption='Image to predict')
-        folder_path = st.text_input("Image path",
-                                    help="This field the image path field that the model will predict\
-                                    the object inside the image that we have uploaded",
-                                    placeholder="Copy the path of image to this field")
 
     st.write("If you don't have any satellit imagery data, you can choose the sample data form the table below:")
-    sample_data = pd.read_csv('https://raw.githubusercontent.com/bills1912/vessels-detection-dashboard/main/apps/sample_data/table_sample_data.csv',
+    main_model_sample = pd.read_csv('https://raw.githubusercontent.com/bills1912/vessels-detection-dashboard/main/apps/sample_data/main_model_sample.csv',
     sep=';')
-    gb = GridOptionsBuilder.from_dataframe(sample_data)
+    gb = GridOptionsBuilder.from_dataframe(main_model_sample)
     gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
     gb.configure_auto_height(autoHeight = True)
     gb.configure_selection('multiple', use_checkbox=False) #Enable multi-row selection
     gridOptions = gb.build()
 
     grid_response = AgGrid(
-        sample_data,
+        main_model_sample,
         gridOptions=gridOptions,
         data_return_mode='AS_INPUT', 
         update_mode='MODEL_CHANGED', 
@@ -46,7 +42,12 @@ def app():
     )
 
     selected = grid_response['selected_rows']
-    if selected:
+    if uploaded_file:
+        folder_path = st.text_input("Image path",
+                                    help="This field the image path field that the model will predict\
+                                    the object inside the image that we have uploaded",
+                                    placeholder="Copy the path of image to this field")
+    elif selected:
         folder_path = st.text_input("Image path", value=f"{selected[0]['Sample Data']}",
                                     help="This field the image path field that the model will predict\
                                     the object inside the image that we have uploaded",
