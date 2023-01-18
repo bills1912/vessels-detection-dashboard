@@ -79,13 +79,16 @@ def app():
                     w = int(data_vis[idx][2])
                     h = int(data_vis[idx][3])
                     ship_class = int(data_vis[idx][5])
-                cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
+                # cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
                 if ship_class == 0:
-                    cv2.putText(img, (f'Kapal Merchant {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
+                    cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
+                    cv2.putText(img, (f'Merchant {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
                 elif ship_class == 1:
-                    cv2.putText(img, (f'Other Ship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
+                    cv2.rectangle(img, (x, y), (w, h), (255, 61, 0), 6)
+                    cv2.putText(img, (f'Other Ship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 61, 0), 3)
                 else:
-                    cv2.putText(img, (f'Kapal Warship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
+                    cv2.rectangle(img, (x, y), (w, h), (30, 144, 255), 6)
+                    cv2.putText(img, (f'Warship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (30, 144, 255), 3)
             st.image(img)
         # results.print()
 
@@ -119,8 +122,12 @@ def app():
             cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
             if ship_class == 0:
                 ship.append(f"Merchant {idx+1}")
-                lth.append(length)
-                wdh.append(width)
+                if length > width:
+                    lth.append(length)
+                    wdh.append(width)
+                else:
+                    lth.append(width)
+                    wdh.append(length)
                 ar.append(area)
                 if (length * width < 545):
                     ship_load.append("< 400 imperial tons")
