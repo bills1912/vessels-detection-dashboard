@@ -6,7 +6,7 @@ import streamlit as st
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
 def app():
-    st.write("## Ship Imagery Prediction")
+    st.write("## Ship Imagery Detection")
     st.write("### Model evaluation:")
     eval_col1, eval_col2, eval_col3, eval_col4, eval_col5 = st.columns(spec=5)
     eval_col1.metric("Precision", "89.52%")
