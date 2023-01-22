@@ -89,10 +89,9 @@ def app():
                 else:
                     cv2.rectangle(img, (x, y), (w, h), (30, 144, 255), 6)
                     cv2.putText(img, (f'Warship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (30, 144, 255), 3)
+           
             st.image(img)
-        # results.print()
-
-        # Shiploads estimation
+            
         st.write('Here is the estimation of the ship that has been detected from the image above:')
         est_data = pd.DataFrame()
         ship = []

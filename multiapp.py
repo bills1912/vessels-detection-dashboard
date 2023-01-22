@@ -65,7 +65,7 @@ class MultiApp:
         st.sidebar.title("About")
         st.sidebar.info(
             """
-            This [dashboard](https://huggingface.co/spaces/billsar1912/YOLOv5x6-marine-vessels-detection?__theme=dark&page=Home) is maintain by Bill Van Ricardo Zalukhu.
+            This [dashboard](https://bills1912-vessels-detection-dashboard-app-7dx4a2.streamlit.app/) is maintain by Bill Van Ricardo Zalukhu.
             And this dashboard is connected to [Big Data STIS](https://bigdata.stis.ac.id/ship-detection/), so check another project from Big Data STIS [here](https://bigdata.stis.ac.id).
             """  
         )
