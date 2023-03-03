@@ -7,6 +7,7 @@ import pandas as pd
 import streamlit as st
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
+
 def app():
     st.write("## Shiploads Estimation")
     st.write("### Model evaluation:")
@@ -23,22 +24,23 @@ def app():
 
     st.write("If you don't have any satellit imagery data, you can choose the sample data form the table below:")
     fine_tuning_sample = pd.read_csv('https://raw.githubusercontent.com/bills1912/vessels-detection-dashboard/main/apps/sample_data/fine_tuning_sample.csv',
-    sep=';')
+                                     sep=';')
     gb = GridOptionsBuilder.from_dataframe(fine_tuning_sample)
-    gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
-    gb.configure_auto_height(autoHeight = True)
-    gb.configure_selection('multiple', use_checkbox=False) #Enable multi-row selection
+    gb.configure_pagination(paginationAutoPageSize=True)  # Add pagination
+    gb.configure_auto_height(autoHeight=True)
+    # Enable multi-row selection
+    gb.configure_selection('multiple', use_checkbox=False)
     gridOptions = gb.build()
 
     grid_response = AgGrid(
         fine_tuning_sample,
         gridOptions=gridOptions,
-        data_return_mode='AS_INPUT', 
-        update_mode='MODEL_CHANGED', 
+        data_return_mode='AS_INPUT',
+        update_mode='MODEL_CHANGED',
         fit_columns_on_grid_load=False,
-        theme='dark', #Add theme color to the table
+        theme='dark',  # Add theme color to the table
         enable_enterprise_modules=True,
-        height=350, 
+        height=350,
         width='100%',
         reload_data=True
     )
@@ -60,7 +62,8 @@ def app():
         request = urllib.request.urlopen(folder_path)
         arr = np.asarray(bytearray(request.read()), dtype=np.uint8)
         img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-        ship_model = torch.hub.load('ultralytics/yolov5', 'custom', path="apps/model/fine_tune.pt", force_reload=True)
+        ship_model = torch.hub.load(
+            'ultralytics/yolov5', 'custom', path="apps/model/fine_tune.pt", force_reload=True)
         ship_model.conf = 0.6
         ship_model.iou = 0.55
         results = ship_model(f"{folder_path}")
@@ -82,17 +85,21 @@ def app():
                 # cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
                 if ship_class == 0:
                     cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
-                    cv2.putText(img, (f'Merchant {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
+                    cv2.putText(
+                        img, (f'Merchant {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
                 elif ship_class == 1:
                     cv2.rectangle(img, (x, y), (w, h), (255, 61, 0), 6)
-                    cv2.putText(img, (f'Other Ship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 61, 0), 3)
+                    cv2.putText(
+                        img, (f'Other Ship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 61, 0), 3)
                 else:
                     cv2.rectangle(img, (x, y), (w, h), (30, 144, 255), 6)
-                    cv2.putText(img, (f'Warship {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (30, 144, 255), 3)
-           
+                    cv2.putText(img, (f'Warship {idx+1}'), (x-60, y-15),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (30, 144, 255), 3)
+
             st.image(img)
-            
-        st.write('Here is the estimation of the ship that has been detected from the image above:')
+
+        st.write(
+            'Here is the estimation of the ship that has been detected from the image above:')
         est_data = pd.DataFrame()
         ship = []
         lth = []
@@ -133,9 +140,11 @@ def app():
                 elif (length * width >= 545) and (length * width <= 1831.2):
                     ship_load.append("400 imperial tons - 5000 imperial tons")
                 elif (length * width > 1831.2) and (length * width <= 5980):
-                    ship_load.append("10000 imperial tons - 40000 imperial tons")
+                    ship_load.append(
+                        "10000 imperial tons - 40000 imperial tons")
                 elif (length * width > 5980) and (length * width <= 9237.8):
-                    ship_load.append("50000 imperial tons - 150000 imperial tons")
+                    ship_load.append(
+                        "50000 imperial tons - 150000 imperial tons")
                 elif (length * width > 9237.8):
                     ship_load.append("> 150000 imperial tons")
         est_data['Ship'] = ship
@@ -143,7 +152,7 @@ def app():
         est_data['Width (m)'] = wdh
         est_data['Area (m^2)'] = ar
         est_data['Shipload Estimation (m^2)'] = ship_load
-        
+
         hide_table_row_index = """
                     <style>
                         thead tr th:first-child {display:none}
@@ -163,5 +172,3 @@ def app():
 
         # Display a static table
         st.table(est_data)
-
-

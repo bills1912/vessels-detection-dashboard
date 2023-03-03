@@ -20,21 +20,21 @@ def app():
 
         """
         )
-    ais = pd.read_csv("https://raw.githubusercontent.com/bills1912/marine-vessels-dataset/main/ais_dataV2.csv")
-    ais_jakarta = ais[ais['Destination Port'] == 'JAKARTA']
-    ais_list = ais_jakarta.values.tolist()
-    f = folium.Figure(width=1000, height=500)
-    jakarta_vessels = folium.Map(location=[-5.626954250925966, 106.70735731868719], zoom_start=8).add_to(f)
-    ais_data = folium.FeatureGroup(name="marine_vessels")
-    mCluster = MarkerCluster(name="Marine Vessels")
-    for i in ais_list:
-        html = f"<h3>{i[1]}</h3> Vessel Type: {i[8]} </br> Destination Port: {i[2]} </br> Reported Destination: {i[4]} </br> Current Port: {i[5]}\
-                </br> Latitude: {i[10]} </br> Longitude: {i[11]}"
-        iframe = folium.IFrame(html)
-        popup = folium.Popup(iframe, min_width=250, max_width=300)
-        ais_data.add_child(mCluster.add_child(folium.Marker(location=[i[10], i[11]], popup=popup, icon=folium.Icon(color="black", icon="ship", prefix="fa"))))
-        jakarta_vessels.add_child(ais_data)
-    folium_static(jakarta_vessels, width=1100, height=700)
+    # ais = pd.read_csv("https://raw.githubusercontent.com/bills1912/marine-vessels-dataset/main/ais_dataV2.csv")
+    # ais_jakarta = ais[ais['Destination Port'] == 'JAKARTA']
+    # ais_list = ais_jakarta.values.tolist()
+    # f = folium.Figure(width=1000, height=500)
+    # jakarta_vessels = folium.Map(location=[-5.626954250925966, 106.70735731868719], zoom_start=8).add_to(f)
+    # ais_data = folium.FeatureGroup(name="marine_vessels")
+    # mCluster = MarkerCluster(name="Marine Vessels")
+    # for i in ais_list:
+    #     html = f"<h3>{i[1]}</h3> Vessel Type: {i[8]} </br> Destination Port: {i[2]} </br> Reported Destination: {i[4]} </br> Current Port: {i[5]}\
+    #             </br> Latitude: {i[10]} </br> Longitude: {i[11]}"
+    #     iframe = folium.IFrame(html)
+    #     popup = folium.Popup(iframe, min_width=250, max_width=300)
+    #     ais_data.add_child(mCluster.add_child(folium.Marker(location=[i[10], i[11]], popup=popup, icon=folium.Icon(color="black", icon="ship", prefix="fa"))))
+    #     jakarta_vessels.add_child(ais_data)
+    # folium_static(jakarta_vessels, width=1100, height=700)
     
     st.markdown(
         """
