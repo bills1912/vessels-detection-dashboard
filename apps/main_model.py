@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import pandas as pd
 import streamlit as st
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+from st_aggrid import GridOptionsBuilder, AgGrid
 
 def app():
     st.write("## Ship Imagery Detection")

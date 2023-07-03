@@ -5,7 +5,7 @@ import urllib
 import numpy as np
 import pandas as pd
 import streamlit as st
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+from st_aggrid import GridOptionsBuilder, AgGrid
 
 
 def app():
@@ -84,6 +84,7 @@ def app():
                     ship_class = int(data_vis[idx][5])
                 # cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
                 if ship_class == 0:
+                    count = len(data_vis)
                     cv2.rectangle(img, (x, y), (w, h), (0, 255, 0), 6)
                     cv2.putText(
                         img, (f'Merchant {idx+1}'), (x-60, y-15), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
@@ -97,6 +98,7 @@ def app():
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (30, 144, 255), 3)
 
             st.image(img)
+            st.write(count)
 
         st.write(
             'Here is the estimation of the ship that has been detected from the image above:')

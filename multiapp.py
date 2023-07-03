@@ -2,10 +2,6 @@
 """
 import streamlit as st
 
-# app_state = st.experimental_get_query_params()
-# app_state = {k: v[0] if isinstance(v, list) else v for k, v in app_state.items()} # fetch the first item in each query string as we don't have multiple values for each query string key in this example
-
-
 class MultiApp:
     """Framework for combining multiple streamlit applications.
     Usage:
@@ -46,7 +42,6 @@ class MultiApp:
             k: v[0] if isinstance(v, list) else v for k, v in app_state.items()
         }  # fetch the first item in each query string as we don't have multiple values for each query string key in this example
 
-        # st.write('before', app_state)
 
         titles = [a["title"] for a in self.apps]
         functions = [a["function"] for a in self.apps]
@@ -57,7 +52,6 @@ class MultiApp:
         title = st.sidebar.radio("Go To", titles, index=default_radio, key="radio")
 
         app_state["page"] = st.session_state.radio
-        # st.write('after', app_state)
 
         st.experimental_set_query_params(**app_state)
         functions[titles.index(title)]()
